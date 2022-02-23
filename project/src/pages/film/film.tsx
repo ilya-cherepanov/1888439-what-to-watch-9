@@ -1,56 +1,64 @@
-import Footer from '../footer/footer';
-import FilmCard from '../film-card/film-card';
-import Logo from '../logo/logo';
-import {LogoType} from '../../constants';
+import {MouseEventHandler} from 'react';
+import {Link} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import FilmList from '../../components/film-list/film-list';
+import Footer from '../../components/footer/footer';
+import Logo from '../../components/logo/logo';
+import UserBlock from '../../components/user-block/user-block';
+import {LogoStyle} from '../../constants';
+import {Comment} from '../../types/comment';
+import {Film} from '../../types/film';
+import {LoggedInUser} from '../../types/user';
+import NotFoundPage from '../not-found/not-found';
 
-function FilmPage(): JSX.Element {
-  const filmCards: JSX.Element[] = [];
 
-  for (let i = 0; i < 4; ++i) {
-    filmCards.push(
-      <FilmCard
-        imgSrc="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        title="Fantastic Beasts: The Crimes of Grindelwald"
-        key={i}
-      />,
-    );
+type FilmPageProps = {
+  films: Film[];
+  comments: Comment[];
+  user: LoggedInUser;
+};
+
+
+function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
+  const navigate = useNavigate();
+  const params = useParams();
+  const currentFilm = films.find((film) => film.id === Number(params.id));
+
+  if (currentFilm === undefined) {
+    return <NotFoundPage />;
   }
+
+  const clickPlayHandler: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    evt.preventDefault();
+    navigate(`/player/${currentFilm.id}`);
+  };
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={currentFilm.backgroundImage} alt={currentFilm.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <Logo type={LogoType.Regular} />
+            <Logo type={LogoStyle.Regular} />
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a href='/logout' className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <UserBlock user={user} />
           </header>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{currentFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{currentFilm.genre}</span>
+                <span className="film-card__year">{currentFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={clickPlayHandler}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -62,7 +70,7 @@ function FilmPage(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={`/films/${currentFilm.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -71,7 +79,7 @@ function FilmPage(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={currentFilm.posterImage} alt={`${currentFilm.name} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -90,10 +98,10 @@ function FilmPage(): JSX.Element {
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
+                <div className="film-rating__score">{currentFilm.rating.toFixed(1)}</div>
                 <p className="film-rating__meta">
                   <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
+                  <span className="film-rating__count">{currentFilm.scoresCount} ratings</span>
                 </p>
               </div>
 
@@ -102,7 +110,7 @@ function FilmPage(): JSX.Element {
 
                 <p>Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
 
-                <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
+                <p className="film-card__director"><strong>Director: {currentFilm.director}</strong></p>
 
                 <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
               </div>
@@ -115,9 +123,7 @@ function FilmPage(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {filmCards}
-          </div>
+          <FilmList films={films} />
         </section>
 
         <Footer />

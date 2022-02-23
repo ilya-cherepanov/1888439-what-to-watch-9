@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {FILM} from './constants';
+import {films} from './mocks/films';
+import {comments} from './mocks/comments';
+import {loggedInUser} from './mocks/user';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App film={FILM} />
+    <App films={films} comments={comments} user={loggedInUser} />
   </React.StrictMode>,
-  document.getElementById('root'));
+  document.getElementById('root'),
+);

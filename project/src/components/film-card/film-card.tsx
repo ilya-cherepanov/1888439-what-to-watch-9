@@ -1,17 +1,28 @@
+import {Link} from 'react-router-dom';
+import {Film} from '../../types/film';
+
+
 type FilmCardProps = {
-  title: string;
-  imgSrc: string;
+  film: Film;
+  active: boolean;
+  onHover: (id: number | null) => void;
 };
 
 
-function FilmCard({ imgSrc, title }: FilmCardProps): JSX.Element {
+function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
+  const {previewImage, name, id} = film;
+
   return (
-    <article className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={() => onHover(id)}
+      onMouseLeave={() => onHover(null)}
+    >
       <div className="small-film-card__image">
-        <img src={imgSrc} alt={title} width="280" height="175" />
+        <img src={previewImage} alt={name} width="280" height="175" />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">{title}</a>
+        <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
