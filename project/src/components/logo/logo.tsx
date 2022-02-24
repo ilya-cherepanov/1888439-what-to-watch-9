@@ -1,14 +1,14 @@
 import {Link} from 'react-router-dom';
-import {LogoType, AppRoute} from '../../constants';
+import {LogoStyle, AppRoute} from '../../constants';
 
 
 type LogoProps = {
-  type: LogoType;
+  type: LogoStyle;
 };
 
 
 function Logo({type}: LogoProps): JSX.Element {
-  const classModifier = type === LogoType.Light ? 'logo__link--light' : '';
+  const classModifier = type === LogoStyle.Light ? 'logo__link--light' : '';
 
   return (
     <div className="logo">

@@ -1,11 +1,3 @@
-const FILM = {
-  title: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  releaseYear: 2014,
-  posterSrc: 'img/the-grand-budapest-hotel-poster.jpg',
-};
-
-
 enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -23,10 +15,10 @@ enum AuthorizationStatus {
 }
 
 
-enum LogoType {
+enum LogoStyle {
   Regular = 'regular',
   Light = 'light',
 }
 
 
-export {FILM, AppRoute, AuthorizationStatus, LogoType};
+export {AppRoute, AuthorizationStatus, LogoStyle};

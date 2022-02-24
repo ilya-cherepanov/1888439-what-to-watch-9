@@ -1,13 +1,13 @@
-import Footer from '../footer/footer';
-import Logo from '../logo/logo';
-import {LogoType} from '../../constants';
+import Footer from '../../components/footer/footer';
+import Logo from '../../components/logo/logo';
+import {LogoStyle} from '../../constants';
 
 
 function LoginPage(): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        <Logo type={LogoType.Regular} />
+        <Logo type={LogoStyle.Regular} />
 
         <h1 className="page-title user-page__title">Sign in</h1>
       </header>

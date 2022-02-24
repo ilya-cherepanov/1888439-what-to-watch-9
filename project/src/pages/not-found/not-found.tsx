@@ -1,13 +1,13 @@
-import Logo from '../logo/logo';
-import Footer from '../footer/footer';
-import {LogoType} from '../../constants';
+import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
+import {LogoStyle} from '../../constants';
 
 
 function NotFoundPage(): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        <Logo type={LogoType.Regular} />
+        <Logo type={LogoStyle.Regular} />
       </header>
 
       <div style={{marginBottom: 40}}>
