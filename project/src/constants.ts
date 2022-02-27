@@ -21,4 +21,20 @@ enum LogoStyle {
 }
 
 
-export {AppRoute, AuthorizationStatus, LogoStyle};
+enum FilmCardParameter {
+  Width = '280',
+  Height = '175',
+  PreviewVideoDelay = 1000,
+}
+
+
+const MAX_GENRES_COUNT = 9;
+
+
+export {
+  AppRoute,
+  AuthorizationStatus,
+  LogoStyle,
+  FilmCardParameter,
+  MAX_GENRES_COUNT
+};
