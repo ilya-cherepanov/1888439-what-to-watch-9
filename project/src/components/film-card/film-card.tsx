@@ -1,5 +1,8 @@
+import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import {FilmCardParameter} from '../../constants';
 import {Film} from '../../types/film';
+import PreviewPlayer from '../preview-player/preview-player';
 
 
 type FilmCardProps = {
@@ -10,7 +13,29 @@ type FilmCardProps = {
 
 
 function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
-  const {previewImage, name, id} = film;
+  const {previewImage, previewVideoLink, name, id} = film;
+  const [isReady, setIsReady] = useState(false);
+
+  const previewElement = active && isReady
+    ? (
+      <PreviewPlayer
+        src={previewVideoLink}
+        poster={previewImage}
+        height={FilmCardParameter.Height}
+      />
+    ) : <img src={previewImage} alt={name} width={FilmCardParameter.Width} height={FilmCardParameter.Height} />;
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (active) {
+      timer = setTimeout(() => setIsReady(true), FilmCardParameter.PreviewVideoDelay);
+    } else {
+      setIsReady(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [active]);
 
   return (
     <article
@@ -19,7 +44,7 @@ function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
       onMouseLeave={() => onHover(null)}
     >
       <div className="small-film-card__image">
-        <img src={previewImage} alt={name} width="280" height="175" />
+        {previewElement}
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
