@@ -16,8 +16,8 @@ enum AuthorizationStatus {
 
 
 enum LogoStyle {
-  Regular = 'regular',
-  Light = 'light',
+  Regular = 'REGULAR',
+  Light = 'LIGHT',
 }
 
 

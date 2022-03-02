@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {MAX_GENRES_COUNT} from '../../constants';
 import {Film} from '../../types/film';
 import FilmList from '../film-list/film-list';
-import GenreItem from './genre-item';
+import TabItem from '../tab-item/tab-item';
 import {getTopGenres} from './utils';
 
 
@@ -16,8 +16,10 @@ function Catalog({films}: FilmListProps): JSX.Element {
 
   const topGenres = getTopGenres(films, MAX_GENRES_COUNT);
   const genreItems: JSX.Element[] = ['All genres'].concat(topGenres).map((genre) => (
-    <GenreItem
-      genre={genre}
+    <TabItem
+      containerClass="catalog__genres-item"
+      linkClass="catalog__genres-link"
+      content={genre}
       active={genre === selectedGenre}
       onClick={(clickedGenre) => setSelectedGenre(clickedGenre)}
       key={genre}
