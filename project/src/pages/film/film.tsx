@@ -29,7 +29,7 @@ function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
     return <NotFoundPage />;
   }
 
-  const similarFilms = films.slice(0, 4);
+  const similarFilms = films.filter((film) => film.genre === currentFilm.genre).slice(0, 4);
 
   const clickPlayHandler: MouseEventHandler<HTMLButtonElement> = (evt) => {
     evt.preventDefault();
