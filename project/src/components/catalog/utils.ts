@@ -27,8 +27,4 @@ const getTopGenres = (films: Film[], maxGenresCount = 9): string[] => {
 };
 
 
-const makeSlug = (genre: string): string =>
-  genre.trim().toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
-
-
-export {getTopGenres, makeSlug};
+export {getTopGenres};

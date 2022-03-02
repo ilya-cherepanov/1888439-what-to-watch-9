@@ -26,7 +26,7 @@ function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
     ) : <img src={previewImage} alt={name} width={FilmCardParameter.Width} height={FilmCardParameter.Height} />;
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
 
     if (active) {
       timer = setTimeout(() => setIsReady(true), FilmCardParameter.PreviewVideoDelay);
