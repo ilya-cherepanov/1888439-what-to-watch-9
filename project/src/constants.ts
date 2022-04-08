@@ -75,6 +75,41 @@ enum ReviewFormRestrictions {
 }
 
 
+enum RatingName {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome',
+}
+
+
+enum BadRating {
+  From = 0,
+  Before = 3,
+}
+
+
+enum NormalRating {
+  From = 3,
+  Before = 5,
+}
+
+
+enum GoodRating {
+  From = 5,
+  Before = 8,
+}
+
+
+enum VeryGoodRating {
+  From = 8,
+  Before = 10,
+}
+
+
+const AWESOME_RATING = 10;
+
 const MAX_GENRES_COUNT = 9;
 
 const FILMS_PER_STEP = 8;
@@ -95,6 +130,12 @@ export {
   LoadingStatus,
   FilmDetailsTabs,
   ReviewFormRestrictions,
+  RatingName,
+  BadRating,
+  NormalRating,
+  GoodRating,
+  VeryGoodRating,
+  AWESOME_RATING,
   MAX_GENRES_COUNT,
   FILMS_PER_STEP,
   MAX_SIMILAR_FILMS,
