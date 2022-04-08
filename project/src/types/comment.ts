@@ -8,7 +8,7 @@ export type NewComment = {
 
 
 export type Comment = NewComment & {
-  date: Date;
+  date: string;
   id: number;
   user: User;
 };

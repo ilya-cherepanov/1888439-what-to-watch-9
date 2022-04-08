@@ -1,6 +1,7 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {LogoStyle} from '../../constants';
+import {AppRoute, LogoStyle} from '../../constants';
+import {Link} from 'react-router-dom';
 
 
 function NotFoundPage(): JSX.Element {
@@ -10,8 +11,9 @@ function NotFoundPage(): JSX.Element {
         <Logo type={LogoStyle.Regular} />
       </header>
 
-      <div style={{marginBottom: 40}}>
-        <h1 className="page-title" style={{textAlign: 'center'}}>404 Not Found</h1>
+      <div style={{marginBottom: 40, textAlign: 'center'}}>
+        <h1 className="page-title" style={{textAlign: 'center', marginBottom: 20}}>404 Not Found</h1>
+        <Link to={AppRoute.Main} style={{color: '#dfcf77'}}>Go to main</Link>
       </div>
 
       <Footer />

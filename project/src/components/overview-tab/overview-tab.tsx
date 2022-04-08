@@ -11,7 +11,7 @@ function OverviewTab({film}: OverviewTabProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{film.rating.toFixed(1)}</div>
+        <div className="film-rating__score">{film.rating.toFixed(1).replace('.', ',')}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{formatRating(film.rating)}</span>
           <span className="film-rating__count">{film.scoresCount} ratings</span>

@@ -1,14 +1,24 @@
+import {
+  AWESOME_RATING,
+  BadRating,
+  GoodRating,
+  NormalRating,
+  RatingName,
+  VeryGoodRating
+} from '../../constants';
+
+
 const formatRating = (score: number): string => {
-  if (score >= 0 && score < 3) {
-    return 'Bad';
-  } else if (score >= 3 && score < 5) {
-    return 'Normal';
-  } else if (score >= 5 && score < 8) {
-    return 'Good';
-  } else if (score >= 8 && score < 10) {
-    return 'Very good';
-  } else if (score === 10) {
-    return 'Awesome';
+  if (score >= BadRating.From && score < BadRating.Before) {
+    return RatingName.Bad;
+  } else if (score >= NormalRating.From && score < NormalRating.Before) {
+    return RatingName.Normal;
+  } else if (score >= GoodRating.From && score < GoodRating.Before) {
+    return RatingName.Good;
+  } else if (score >= VeryGoodRating.From && score < VeryGoodRating.Before) {
+    return RatingName.VeryGood;
+  } else if (score === AWESOME_RATING) {
+    return RatingName.Awesome;
   }
 
   return '';

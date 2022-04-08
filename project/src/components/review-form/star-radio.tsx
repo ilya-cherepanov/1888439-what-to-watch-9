@@ -1,11 +1,12 @@
 type StarRadioProps = {
   value: number;
   checked: boolean;
+  disabled: boolean;
   onChange: (value: number) => void;
 };
 
 
-function StarRadio({value, checked, onChange}: StarRadioProps): JSX.Element {
+function StarRadio({value, checked, disabled, onChange}: StarRadioProps): JSX.Element {
   return (
     <>
       <input
@@ -14,6 +15,7 @@ function StarRadio({value, checked, onChange}: StarRadioProps): JSX.Element {
         type="radio" name="rating"
         value={value}
         onChange={({target}) => onChange(Number(target.value))}
+        disabled={disabled}
         checked={checked}
       />
       <label className="rating__label" htmlFor={`star-${value}`}>Rating {value}</label>

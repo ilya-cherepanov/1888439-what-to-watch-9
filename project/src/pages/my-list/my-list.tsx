@@ -1,19 +1,21 @@
+import {useEffect} from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {LogoStyle} from '../../constants';
-import {Film} from '../../types/film';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFavoriteFilms} from '../../store/api-action';
 import {LoggedInUser} from '../../types/user';
 
-type MyListPageProps = {
-  films: Film[];
-  user: LoggedInUser;
-};
 
+function MyListPage(): JSX.Element {
+  const {userInfo} = useAppSelector((state) => state.user);
+  const {favoriteFilms} = useAppSelector((state) => state.films);
+  const dispatch = useAppDispatch();
 
-function MyListPage({films, user}: MyListPageProps): JSX.Element {
-  const favoriteFilms = films.filter((film) => film.isFavorite);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { dispatch(fetchFavoriteFilms((userInfo as LoggedInUser).id)); }, []);
 
   return (
     <div className="user-page">
@@ -22,7 +24,7 @@ function MyListPage({films, user}: MyListPageProps): JSX.Element {
 
         <h1 className="page-title user-page__title">My list</h1>
 
-        <UserBlock user={user} />
+        <UserBlock />
       </header>
 
       <section className="catalog">

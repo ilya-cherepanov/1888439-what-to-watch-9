@@ -1,4 +1,5 @@
 const formatTime = (timeInSeconds: number): string => {
+  timeInSeconds = Math.floor(timeInSeconds);
   const seconds = timeInSeconds % 60;
   const minutes = Math.floor(timeInSeconds / 60) % 60;
   const hours = Math.floor(timeInSeconds / 3600);
@@ -11,4 +12,9 @@ const formatTime = (timeInSeconds: number): string => {
 };
 
 
-export {formatTime};
+const getProgressInPercents = (currentTime: number, duration: number): number => (
+  Math.floor(currentTime / duration * 100)
+);
+
+
+export {formatTime, getProgressInPercents};

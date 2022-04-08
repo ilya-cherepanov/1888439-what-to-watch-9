@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FilmCardParameter} from '../../constants';
 import {Film} from '../../types/film';
 import PreviewPlayer from '../preview-player/preview-player';
@@ -15,6 +15,7 @@ type FilmCardProps = {
 function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
   const {previewImage, previewVideoLink, name, id} = film;
   const [isReady, setIsReady] = useState(false);
+  const navigate = useNavigate();
 
   const previewElement = active && isReady
     ? (
@@ -40,6 +41,7 @@ function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
   return (
     <article
       className="small-film-card catalog__films-card"
+      onClick={() => navigate(`/films/${id}`)}
       onMouseEnter={() => onHover(id)}
       onMouseLeave={() => onHover(null)}
     >

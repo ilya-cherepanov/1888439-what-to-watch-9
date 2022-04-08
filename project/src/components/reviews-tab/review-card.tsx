@@ -15,7 +15,7 @@ function ReviewCard({comment}: ReviewCardProps): JSX.Element {
 
         <footer className="review__details">
           <cite className="review__author">{comment.user.name}</cite>
-          <time className="review__date" dateTime={comment.date.toISOString()}>{formatDate(comment.date)}</time>
+          <time className="review__date" dateTime={comment.date}>{formatDate(comment.date)}</time>
         </footer>
       </blockquote>
 

@@ -11,10 +11,10 @@ type TabItemProps = {
 };
 
 
-function TabItem({content, active, containerClass, linkClass, onClick}: TabItemProps): JSX.Element {
+function TabSelector({content, active, containerClass, linkClass, onClick}: TabItemProps): JSX.Element {
   const activationModifier = active ? `${containerClass}--active` : '';
 
-  const clickHandler: MouseEventHandler<HTMLAnchorElement> = (evt) => {
+  const handleClick: MouseEventHandler<HTMLAnchorElement> = (evt) => {
     evt.preventDefault();
 
     onClick(content);
@@ -22,7 +22,7 @@ function TabItem({content, active, containerClass, linkClass, onClick}: TabItemP
 
   return (
     <li className={`${containerClass} ${activationModifier}`}>
-      <a href={`#${makeSlug(content)}`} className={linkClass} onClick={clickHandler}>
+      <a href={`#${makeSlug(content)}`} className={linkClass} onClick={handleClick}>
         {content}
       </a>
     </li>
@@ -30,4 +30,4 @@ function TabItem({content, active, containerClass, linkClass, onClick}: TabItemP
 }
 
 
-export default TabItem;
+export default TabSelector;
