@@ -1,37 +1,41 @@
-import {MouseEventHandler} from 'react';
+import {MouseEventHandler, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useNavigate, useParams} from 'react-router-dom';
 import FilmDetails from '../../components/film-details/film-details';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
+import MyListButton from '../../components/my-list-button/my-list-button';
 import UserBlock from '../../components/user-block/user-block';
-import {LogoStyle} from '../../constants';
-import {Comment} from '../../types/comment';
-import {Film} from '../../types/film';
-import {LoggedInUser} from '../../types/user';
+import {AuthorizationStatus, LoadingStatus, LogoStyle, MAX_SIMILAR_FILMS} from '../../constants';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFilm, fetchSimilarFilms} from '../../store/api-action';
 import NotFoundPage from '../not-found/not-found';
 
 
-type FilmPageProps = {
-  films: Film[];
-  comments: Comment[];
-  user: LoggedInUser;
-};
-
-
-function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
+function FilmPage(): JSX.Element | null {
   const navigate = useNavigate();
   const params = useParams();
-  const currentFilm = films.find((film) => film.id === Number(params.id));
+  const {currentFilm, currentFilmLoadingStatus, similarFilms} = useAppSelector((state) => state.films);
+  const isUserAuthorized = useAppSelector((state) => state.user).authorizationStatus === AuthorizationStatus.Auth;
+  const dispatch = useAppDispatch();
+  const filmId = Number(params.id);
 
-  if (currentFilm === undefined) {
+  useEffect(() => {
+    dispatch(fetchFilm(filmId));
+    dispatch(fetchSimilarFilms(filmId));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filmId]);
+
+  if (currentFilmLoadingStatus === LoadingStatus.Error) {
     return <NotFoundPage />;
   }
 
-  const similarFilms = films.filter((film) => film.genre === currentFilm.genre).slice(0, 4);
+  if (currentFilm === null) {
+    return null;
+  }
 
-  const clickPlayHandler: MouseEventHandler<HTMLButtonElement> = (evt) => {
+  const handleClickPlay: MouseEventHandler<HTMLButtonElement> = (evt) => {
     evt.preventDefault();
     navigate(`/player/${currentFilm.id}`);
   };
@@ -49,7 +53,7 @@ function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
           <header className="page-header film-card__head">
             <Logo type={LogoStyle.Regular} />
 
-            <UserBlock user={user} />
+            <UserBlock />
           </header>
 
           <div className="film-card__wrap">
@@ -61,26 +65,21 @@ function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={clickPlayHandler}>
+                <button className="btn btn--play film-card__button" type="button" onClick={handleClickPlay}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                <Link to={`/films/${currentFilm.id}/review`} className="btn film-card__button">Add review</Link>
+                {isUserAuthorized && <MyListButton film={currentFilm} />}
+                {isUserAuthorized && <Link to={`/films/${currentFilm.id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
         </div>
 
         <div className="film-card__wrap film-card__translate-top">
-          <FilmDetails film={currentFilm} comments={comments} />
+          <FilmDetails film={currentFilm} />
         </div>
       </section>
 
@@ -88,7 +87,7 @@ function FilmPage({films, comments, user}: FilmPageProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={similarFilms} />
+          <FilmList films={similarFilms.slice(0, MAX_SIMILAR_FILMS)} />
         </section>
 
         <Footer />

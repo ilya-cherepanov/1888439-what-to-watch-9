@@ -1,13 +1,21 @@
-import {Comment} from '../../types/comment';
+import {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchComments} from '../../store/api-action';
 import ReviewCard from './review-card';
 
 
 type ReviewsTabProps = {
-  comments: Comment[];
+  filmId: number;
 };
 
 
-function ReviewsTab({comments}: ReviewsTabProps): JSX.Element {
+function ReviewsTab({filmId}: ReviewsTabProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const {comments} = useAppSelector((state) => state.comments);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { dispatch(fetchComments(filmId)); }, [filmId]);
+
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">

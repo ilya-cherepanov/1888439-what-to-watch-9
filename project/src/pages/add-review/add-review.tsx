@@ -1,26 +1,32 @@
-import {Link} from 'react-router-dom';
-import {useParams} from 'react-router-dom';
+import {useEffect} from 'react';
+import {Link, useParams} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
-import {LogoStyle} from '../../constants';
-import {Film} from '../../types/film';
-import {LoggedInUser} from '../../types/user';
+import {LoadingStatus, LogoStyle} from '../../constants';
+import {useAppDispatch, useAppSelector}  from '../../hooks';
+import {fetchFilm} from '../../store/api-action';
 import NotFoundPage from '../not-found/not-found';
 
 
-type AddReviewPageProps = {
-  films: Film[];
-  user: LoggedInUser;
-};
-
-
-function AddReviewPage({films, user}: AddReviewPageProps): JSX.Element {
+function AddReviewPage(): JSX.Element | null {
+  const {currentFilm, currentFilmLoadingStatus} = useAppSelector((store) => store.films);
   const params = useParams();
-  const currentFilm = films.find((film) => film.id === Number(params.id));
+  const dispatch = useAppDispatch();
 
-  if (currentFilm === undefined) {
+  useEffect(() => {
+    if (currentFilm === null) {
+      dispatch(fetchFilm(Number(params.id)));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (currentFilmLoadingStatus === LoadingStatus.Error) {
     return <NotFoundPage />;
+  }
+
+  if (currentFilm === null) {
+    return null;
   }
 
   return (
@@ -46,7 +52,7 @@ function AddReviewPage({films, user}: AddReviewPageProps): JSX.Element {
             </ul>
           </nav>
 
-          <UserBlock user={user} />
+          <UserBlock />
         </header>
 
         <div className="film-card__poster film-card__poster--small">
@@ -55,7 +61,7 @@ function AddReviewPage({films, user}: AddReviewPageProps): JSX.Element {
       </div>
 
       <div className="add-review">
-        <ReviewForm />
+        <ReviewForm filmId={currentFilm.id}/>
       </div>
 
     </section>

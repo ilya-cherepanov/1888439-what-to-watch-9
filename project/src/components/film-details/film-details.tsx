@@ -1,47 +1,46 @@
 import {useState} from 'react';
-import {Comment} from '../../types/comment';
+import {FilmDetailsTabs} from '../../constants';
 import {Film} from '../../types/film';
 import DetailsTab from '../details-tab/details-tab';
 import OverviewTab from '../overview-tab/overview-tab';
 import ReviewsTab from '../reviews-tab/reviews-tab';
-import TabItem from '../tab-item/tab-item';
+import TabSelector from '../tab-item/tab-item';
 
 
 type FilmDetailsProps = {
   film: Film;
-  comments: Comment[];
 };
 
 
-function FilmDetails({film, comments}: FilmDetailsProps): JSX.Element {
-  const [currentTab, setCurrentTab] = useState('Overview');
+function FilmDetails({film}: FilmDetailsProps): JSX.Element | null {
+  const [currentTab, setCurrentTab] = useState(FilmDetailsTabs.Overview);
 
-  const clickTabHandler = (selectedTab: string): void => {
-    setCurrentTab(selectedTab);
+  const handleTabClick = (selectedTab: string): void => {
+    setCurrentTab(selectedTab as FilmDetailsTabs);
   };
 
-  const tabs = ['Overview', 'Details', 'Reviews'];
+  const tabs = [FilmDetailsTabs.Overview, FilmDetailsTabs.Details, FilmDetailsTabs.Reviews];
   const tabSelectors = tabs.map((tab) => (
-    <TabItem
+    <TabSelector
       containerClass="film-nav__item"
       linkClass="film-nav__link"
       content={tab}
       active={tab === currentTab}
-      onClick={clickTabHandler}
+      onClick={handleTabClick}
       key={tab}
     />
   ));
 
   let selectedTab: JSX.Element | null = null;
   switch (currentTab) {
-    case 'Overview':
+    case FilmDetailsTabs.Overview:
       selectedTab = <OverviewTab film={film} />;
       break;
-    case 'Details':
+    case FilmDetailsTabs.Details:
       selectedTab = <DetailsTab film={film} />;
       break;
-    case 'Reviews':
-      selectedTab = <ReviewsTab comments={comments} />;
+    case FilmDetailsTabs.Reviews:
+      selectedTab = <ReviewsTab filmId={film.id} />;
       break;
   }
 
