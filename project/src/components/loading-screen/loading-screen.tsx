@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import Spinner from '../spinner/spinner';
 
 
@@ -10,4 +11,4 @@ function LoadingScreen(): JSX.Element {
 }
 
 
-export default LoadingScreen;
+export default memo(LoadingScreen);

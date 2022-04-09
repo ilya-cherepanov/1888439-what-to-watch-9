@@ -18,8 +18,7 @@ function AddReviewPage(): JSX.Element | null {
     if (currentFilm === null) {
       dispatch(fetchFilm(Number(params.id)));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, currentFilm, params.id]);
 
   if (currentFilmLoadingStatus === LoadingStatus.Error) {
     return <NotFoundPage />;

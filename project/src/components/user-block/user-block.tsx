@@ -1,4 +1,4 @@
-import {MouseEventHandler} from 'react';
+import {MouseEventHandler, useCallback} from 'react';
 import {Link} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
@@ -11,6 +11,16 @@ function UserBlock(): JSX.Element | null {
   const {authorizationStatus, userInfo} = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
+  const handleClickAvatar: MouseEventHandler<HTMLImageElement> = useCallback(() => {
+    navigate('/mylist');
+  }, [navigate]);
+
+
+  const handleClickLogout: MouseEventHandler<HTMLAnchorElement> = useCallback((evt) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  }, [dispatch]);
+
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return null;
   }
@@ -22,16 +32,6 @@ function UserBlock(): JSX.Element | null {
       </div>
     );
   }
-
-  const handleClickAvatar: MouseEventHandler<HTMLImageElement> = () => {
-    navigate('/mylist');
-  };
-
-
-  const handleClickLogout: MouseEventHandler<HTMLAnchorElement> = (evt) => {
-    evt.preventDefault();
-    dispatch(logoutAction());
-  };
 
   return (
     <ul className="user-block">

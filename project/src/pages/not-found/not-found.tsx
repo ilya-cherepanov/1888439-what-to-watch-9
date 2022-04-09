@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {AppRoute, LogoStyle} from '../../constants';
 import {Link} from 'react-router-dom';
+import {memo} from 'react';
 
 
 function NotFoundPage(): JSX.Element {
@@ -22,4 +23,4 @@ function NotFoundPage(): JSX.Element {
 }
 
 
-export default NotFoundPage;
+export default memo(NotFoundPage);

@@ -1,4 +1,4 @@
-import {MouseEventHandler, ReactEventHandler, useEffect, useRef, useState} from 'react';
+import {MouseEventHandler, ReactEventHandler, useCallback, useEffect, useRef, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {formatTime, getProgressInPercents} from './utils';
 import NotFoundPage from '../not-found/not-found';
@@ -26,26 +26,22 @@ function PlayerPage(): JSX.Element | null {
     if (currentFilm === null) {
       dispatch(fetchFilm(Number(params.id)));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentFilm, params.id, dispatch]);
+
+  const handleClickExit: MouseEventHandler<HTMLButtonElement> = useCallback((evt) => {
+    evt.preventDefault();
+
+    if (currentFilm !== null) {
+      navigate(`/films/${currentFilm.id}`);
+    }
+  }, [currentFilm, navigate]);
+
+  const handleTimeUpdate: ReactEventHandler<HTMLVideoElement> = useCallback((evt) => {
+    const videoElement = evt.target as HTMLVideoElement;
+    setCurrentTime(videoElement.currentTime);
   }, []);
 
-  if (currentFilmLoadingStatus === LoadingStatus.Error) {
-    return <NotFoundPage />;
-  }
-
-  if (currentFilm === null) {
-    return null;
-  }
-
-  const progressInPercents =
-    videoRef.current === null ? 0 : getProgressInPercents(currentTime, videoRef.current.duration);
-
-  const handleClickExit: MouseEventHandler<HTMLButtonElement> = (evt) => {
-    evt.preventDefault();
-    navigate(`/films/${currentFilm.id}`);
-  };
-
-  const handleClickPlay: MouseEventHandler<HTMLButtonElement> = (evt) => {
+  const handleClickPlay: MouseEventHandler<HTMLButtonElement> = useCallback((evt) => {
     evt.preventDefault();
     if (!videoRef.current) {
       return;
@@ -58,9 +54,9 @@ function PlayerPage(): JSX.Element | null {
     }
 
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
-  const handleClickFullscreen: MouseEventHandler<HTMLButtonElement> = (evt) => {
+  const handleClickFullscreen: MouseEventHandler<HTMLButtonElement> = useCallback((evt) => {
     evt.preventDefault();
     if (!playerRef.current) {
       return;
@@ -71,12 +67,18 @@ function PlayerPage(): JSX.Element | null {
     } else {
       document.exitFullscreen();
     }
-  };
+  }, []);
 
-  const handleTimeUpdate: ReactEventHandler<HTMLVideoElement> = (evt) => {
-    const videoElement = evt.target as HTMLVideoElement;
-    setCurrentTime(videoElement.currentTime);
-  };
+  if (currentFilmLoadingStatus === LoadingStatus.Error) {
+    return <NotFoundPage />;
+  }
+
+  if (currentFilm === null) {
+    return null;
+  }
+
+  const progressInPercents =
+    videoRef.current === null ? 0 : getProgressInPercents(currentTime, videoRef.current.duration);
 
   return (
     <div className="player" ref={playerRef}>

@@ -1,6 +1,5 @@
-const AUTH_TOKEN_KEY_NAME = 'what-to-watch-token';
-
-export type Token = string;
+import {AUTH_TOKEN_KEY_NAME} from '../constants';
+import {Token} from '../types/token';
 
 
 const getToken = (): Token => (

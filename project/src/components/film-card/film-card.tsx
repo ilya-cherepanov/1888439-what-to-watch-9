@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {FilmCardParameter} from '../../constants';
 import {Film} from '../../types/film';
 import PreviewPlayer from '../preview-player/preview-player';
@@ -49,7 +49,7 @@ function FilmCard({film, active, onHover}: FilmCardProps): JSX.Element {
         {previewElement}
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
+        <a className="small-film-card__link" href={`/films/${id}`} onClick={(evt) => evt.preventDefault()}>{name}</a>
       </h3>
     </article>
   );

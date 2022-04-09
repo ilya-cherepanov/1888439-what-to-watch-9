@@ -118,6 +118,12 @@ const MAX_SIMILAR_FILMS = 4;
 
 const ALL_GENRES_LABEL = 'All genres';
 
+const AUTH_TOKEN_KEY_NAME = 'what-to-watch-token';
+
+const BACKEND_URL = 'https://9.react.pages.academy/wtw';
+
+const REQUEST_TIMEOUT = 5000;
+
 
 export {
   AppRoute,
@@ -139,5 +145,8 @@ export {
   MAX_GENRES_COUNT,
   FILMS_PER_STEP,
   MAX_SIMILAR_FILMS,
-  ALL_GENRES_LABEL
+  ALL_GENRES_LABEL,
+  AUTH_TOKEN_KEY_NAME,
+  BACKEND_URL,
+  REQUEST_TIMEOUT
 };

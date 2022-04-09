@@ -1,4 +1,4 @@
-import {MouseEventHandler, useEffect, useState} from 'react';
+import {MouseEventHandler, useCallback, useEffect, useState} from 'react';
 import {ALL_GENRES_LABEL, FILMS_PER_STEP, MAX_GENRES_COUNT} from '../../constants';
 import FilmList from '../film-list/film-list';
 import TabSelector from '../tab-item/tab-item';
@@ -29,11 +29,11 @@ function Catalog(): JSX.Element {
     />
   ));
 
-  const handleClickMore: MouseEventHandler<HTMLButtonElement> = (evt) => {
+  const handleClickMore: MouseEventHandler<HTMLButtonElement> = useCallback((evt) => {
     evt.preventDefault();
 
     setCountFilms(countFilms + FILMS_PER_STEP);
-  };
+  }, [countFilms]);
 
   return (
     <section className="catalog">

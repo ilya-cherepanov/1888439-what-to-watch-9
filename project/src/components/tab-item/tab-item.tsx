@@ -1,4 +1,4 @@
-import {MouseEventHandler} from 'react';
+import {MouseEventHandler, useCallback} from 'react';
 import {makeSlug} from './utils';
 
 
@@ -14,11 +14,11 @@ type TabItemProps = {
 function TabSelector({content, active, containerClass, linkClass, onClick}: TabItemProps): JSX.Element {
   const activationModifier = active ? `${containerClass}--active` : '';
 
-  const handleClick: MouseEventHandler<HTMLAnchorElement> = (evt) => {
+  const handleClick: MouseEventHandler<HTMLAnchorElement> = useCallback((evt) => {
     evt.preventDefault();
 
     onClick(content);
-  };
+  }, [onClick, content]);
 
   return (
     <li className={`${containerClass} ${activationModifier}`}>

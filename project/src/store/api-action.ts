@@ -1,8 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {APIRoute, AppRoute, AuthorizationStatus, LoadingStatus} from '../constants';
-import {errorHandle, loginErrorHandle} from '../error-handle';
+import {checkAuthErrorHandle, errorHandle, loginErrorHandle} from '../services/error-handle';
 import {api, store} from '../store';
-import {dropToken, getToken, saveToken} from '../token';
+import {dropToken, getToken, saveToken} from '../services/token';
 import {Comment, NewComment} from '../types/comment';
 import {Film} from '../types/film';
 import {AuthData, LoggedInUser} from '../types/user';
@@ -114,7 +114,7 @@ const checkAuth = createAsyncThunk('checkAuth', async () => {
     store.dispatch(setUserInfo(data));
   } catch (error) {
     store.dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    errorHandle(error);
+    checkAuthErrorHandle(error);
   }
 });
 

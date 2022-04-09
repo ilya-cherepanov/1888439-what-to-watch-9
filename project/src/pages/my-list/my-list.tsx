@@ -14,8 +14,7 @@ function MyListPage(): JSX.Element {
   const {favoriteFilms} = useAppSelector((state) => state.films);
   const dispatch = useAppDispatch();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { dispatch(fetchFavoriteFilms((userInfo as LoggedInUser).id)); }, []);
+  useEffect(() => { dispatch(fetchFavoriteFilms((userInfo as LoggedInUser).id)); }, [userInfo, dispatch]);
 
   return (
     <div className="user-page">

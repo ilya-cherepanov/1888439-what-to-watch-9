@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {FilmDetailsTabs} from '../../constants';
 import {Film} from '../../types/film';
 import DetailsTab from '../details-tab/details-tab';
@@ -15,9 +15,9 @@ type FilmDetailsProps = {
 function FilmDetails({film}: FilmDetailsProps): JSX.Element | null {
   const [currentTab, setCurrentTab] = useState(FilmDetailsTabs.Overview);
 
-  const handleTabClick = (selectedTab: string): void => {
+  const handleTabClick = useCallback((selectedTab: string): void => {
     setCurrentTab(selectedTab as FilmDetailsTabs);
-  };
+  }, []);
 
   const tabs = [FilmDetailsTabs.Overview, FilmDetailsTabs.Details, FilmDetailsTabs.Reviews];
   const tabSelectors = tabs.map((tab) => (

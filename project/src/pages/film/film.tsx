@@ -24,8 +24,7 @@ function FilmPage(): JSX.Element | null {
   useEffect(() => {
     dispatch(fetchFilm(filmId));
     dispatch(fetchSimilarFilms(filmId));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filmId]);
+  }, [filmId, dispatch]);
 
   if (currentFilmLoadingStatus === LoadingStatus.Error) {
     return <NotFoundPage />;

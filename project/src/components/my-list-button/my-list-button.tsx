@@ -1,7 +1,5 @@
-import {MouseEventHandler} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../constants';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {MouseEventHandler, useCallback} from 'react';
+import {useAppDispatch} from '../../hooks';
 import {setFavoriteStatus} from '../../store/api-action';
 import {Film} from '../../types/film';
 
@@ -12,19 +10,12 @@ type MyListButtonProps = {
 
 
 function MyListButton({film}: MyListButtonProps) {
-  const {authorizationStatus} = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback((evt) => {
     evt.preventDefault();
-
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
-    }
-
     dispatch(setFavoriteStatus({filmId: film.id, status: !film.isFavorite}));
-  };
+  }, [film.id, film.isFavorite, dispatch]);
 
   return (
     <button className="btn btn--list film-card__button" type="button" onClick={handleClick}>

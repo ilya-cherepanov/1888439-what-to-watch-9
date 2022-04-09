@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import './spinner.css';
 
 
@@ -21,4 +22,4 @@ function Spinner(): JSX.Element {
 }
 
 
-export default Spinner;
+export default memo(Spinner);
