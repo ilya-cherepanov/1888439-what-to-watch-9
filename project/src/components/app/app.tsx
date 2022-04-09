@@ -9,7 +9,7 @@ import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import HistoryRouter from '../history-route/history-route';
-import {browserHistory} from '../../browser-history';
+import {browserHistory} from '../../services/browser-history';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {useEffect} from 'react';
